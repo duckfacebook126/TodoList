@@ -1,0 +1,9 @@
+backend:
+mongoose
+socket
+cloudinary
+jwtwebtoken
+nodemon
+express
+cookie parser
+bcrypt js
