@@ -48,11 +48,13 @@ export const userSignup=async(req,res)=>{
         {
 
 
-        
+            generateToken(newUser._id,res);
+
 
         return res.status(201).json({message:"New User has been inserted in the database",
             userId:newUser._id,
             firstName:newUser.firstName,
+            lastName:newUser.lastName,
             profilePic:newUser.profilePic
 
         });
@@ -81,6 +83,10 @@ export const userSignup=async(req,res)=>{
 
 
 }
+
+
+
+
 export const userLogin=(req,res)=>{
     res.status(200).json({message:"helo there from the userLogin"});
 }
