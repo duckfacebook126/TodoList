@@ -1,2 +1,59 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui/theme" {
+  name: "mytheme";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  /* Background Colors */
+  --color-base-100: rgb(250, 245, 255); /* Lightest */
+  --color-base-200: rgb(240, 230, 250);
+  --color-base-300: rgb(230, 220, 245);
+  --color-base-content: rgb(30, 10, 40); /* Text color */
+
+  /* 🌟 Primary Color (Deep Purplish-Pink) */
+  --color-primary: rgb(136, 26, 139);
+  --color-primary-content: rgb(255, 255, 255); /* Light text on primary */
+
+  /* 🌿 Secondary (Softer Purple-Pink) */
+  --color-secondary: rgb(170, 90, 180);
+  --color-secondary-content: rgb(255, 255, 255);
+
+  /* ✨ Accent (Vibrant Pinkish-Purple) */
+  --color-accent: rgb(200, 50, 220);
+  --color-accent-content: rgb(255, 255, 255);
+
+  /* ⚫ Neutral (Soft Grayish Purple) */
+  --color-neutral: rgb(100, 80, 110);
+  --color-neutral-content: rgb(255, 255, 255);
+
+  /* 📘 Info (Bluish-Purple) */
+  --color-info: rgb(90, 140, 240);
+  --color-info-content: rgb(255, 255, 255);
+
+  /* ✅ Success (Teal-Green) */
+  --color-success: rgb(50, 190, 120);
+  --color-success-content: rgb(255, 255, 255);
+
+  /* ⚠️ Warning (Orange-Yellow) */
+  --color-warning: rgb(255, 190, 50);
+  --color-warning-content: rgb(60, 30, 10);
+
+  /* ❌ Error (Reddish-Purple) */
+  --color-error: rgb(210, 40, 80);
+  --color-error-content: rgb(255, 255, 255);
+
+  /* 🔵 Border Radius */
+  --radius-selector: 1rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+
+  /* 📏 Base Sizes */
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  /* 🎭 Effects */
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}

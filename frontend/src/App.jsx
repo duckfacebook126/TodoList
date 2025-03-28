@@ -1,34 +1,45 @@
-import { useEffect, useState } from 'react'
+
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { useState,useEffect } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate,Router,BrowserRouter } from 'react-router-dom';
 import Navbar from './components/navbar';
 import { Toaster } from 'react-hot-toast';
 import SignupPage from './pages/SignupPage';
 import HomePage from './pages/homePage';
 import LoginPage from './pages/loginPage'
-import { Loader } from 'lucide-react'
+import { Loader } from 'lucide-react';
+import { authStore } from './store/authStore';
 
 function App() {
   const [count, setCount] = useState(0)
 
+  const { authUser } = authStore.getState(); // Access Zustand store state
 
-  useEffect();
+  //access the zustand state on each render event
+  useEffect(() => {
+    authStore.getState();
+  }, []);
+
+  console.log(authUser);
+//UI For the SignUp Page
 
   return (
 
       <>
-        <div>
+        <div data-theme="mytheme">
             <Navbar/>
+            <BrowserRouter>
               
-              <Router>
                 <Routes>
-                  <Route path="/" element={HomePage}/>
-                  <Route path="/signup"></Route>
+                  
+                  <Route path="/" element={authUser? <HomePage/>:<Navigate to ="/login"/>}/>
+                  <Route path="/signup" element={!authUser? <SignupPage/>:<Navigate to ="/"/>}/>
+                  <Route path="/login" element={!authUser? <LoginPage/>:<Navigate to ="/"/>}/>
                 </Routes>
-              </Router>
+              
+              </BrowserRouter>
 
             <Toaster/>
 

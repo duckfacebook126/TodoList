@@ -1,9 +1,9 @@
-import { create } from "zustand";
+import  { createStore } from "zustand"
 import toast from "react-hot-toast";
 const baseURL="http://localhost:5006";
 import { axiosInstance } from "../lib/axios";
 
-    export const authStore= create((set,get)=>({
+    export const authStore= createStore((set,get)=>({
 
             authUser:null,
             isSigningup:false,  
@@ -37,23 +37,31 @@ import { axiosInstance } from "../lib/axios";
                     set({isSigningup:true});
 
                     const userData =await axiosInstance.post("/auth/signup",data);
-
+                    //if the data is null
                     if(!userData)
                     {
 
                     set({authUser:null});
                     
                     }
-
+                    // if the data is present  then set the user as the data recieved from the backend with toaster success 
                     set({authUser:userData});
+                    toast.success("Account Created Successfully");
                     
                 } 
 
                 catch (error) {
 
                     console.log("Error caught from signup Frontend",error);
-                    const errorMessage=error
+                    const errorMessage=error.response.data.message;
+                    toast.error(errorMessage);
+
                     
+                }
+
+                finally{
+
+                    set({isSigningup:false});
                 }
             }
 
