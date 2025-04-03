@@ -3,12 +3,35 @@ import toast from 'react-hot-toast';
 import { authStore } from '../store/authStore';
 import { MessageSquare ,Mail,Lock, Eye, EyeOff, Loader2} from 'lucide-react';
 import { User } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import * as z from "zod"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+
+// Add this CSS to hide browser's default password toggle
+const hidePasswordToggleStyle = `
+  input[type="password"]::-ms-reveal,
+  input[type="password"]::-ms-clear {
+    display: none;
+  }
+
+  input[type="password"]::-webkit-contacts-auto-fill-button,
+  input[type="password"]::-webkit-credentials-auto-fill-button,
+  input[type="password"]::-webkit-strong-password-auto-fill-button,
+  input[type="password"]::-webkit-text-security-disc-button,
+  input[type="password"]::-webkit-inner-spin-button,
+  input[type="password"]::-webkit-caps-lock-indicator,
+  input[type="password"]::-webkit-search-cancel-button {
+    display: none !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+  }
+`;
 const SignupPage = () => {
+
+
+  const navigate=useNavigate();
 
   // create a Scheme Object from zod
   const signupSchema = z.object({
@@ -34,20 +57,21 @@ const SignupPage = () => {
       .regex(/[\W_]/, "Password must contain at least one special character"), // Ensures at least one special char
   });
   
-  //destructure the form functions from the funtion
+  //destructure the form functions from the 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(signupSchema),
+    mode:"onBlur"
   });
 
 
   const [showPassword,setShowPassword] = useState(false);
 
 //state from the zustand library imported for signing up and signedup
-  const {signUp,isSigningUp}=authStore.getState();
+  const {signUp,isSigningUp,isSignedUp}=authStore.getState();
 
   //custom onusubmit function
   const onSubmit=async(data)=>{
@@ -55,13 +79,13 @@ const SignupPage = () => {
     try {
       await signUp(data);
 
-      console.log("Successfully  Signed Up");
+
+
       
     } 
 
     catch (error) {
-      const errorMessage = error.response?.data?.message || "Signup failed. Please try again.";
-      toast.error(errorMessage); 
+ 
       console.log('Signupp Failed',error)
     }
   }
@@ -69,10 +93,16 @@ const SignupPage = () => {
 
 
 
-useEffect(()=>{},[]);
+useEffect(()=>{
+  console.log("This runs on every re-render");
+},[]);
+
 
   return (
     <>
+   {/* added thsi to turn of the browsers auto eye and off button */}
+   <style>{hidePasswordToggleStyle}</style>
+
 <div 
   className="h-screen flex items-center justify-center bg-cover bg-center"
   style={{ backgroundImage: "url('/mbl-head-office.jpg')" }}
@@ -86,8 +116,9 @@ useEffect(()=>{},[]);
     </div>
 
     {/* Right Side (Signup Form) */}
-    <div className="w-1/2 border-3 border-white/73  rounded-2xl flex-col bg-white">
+    <div className="w-1/2 border-3 border-white/73  rounded-2xl flex-col bg-white items-center justify-center">
 
+      <h1 className='text-primary mt-4   text-xs flex justify-center font-bold'>SIGNUP</h1>
             {/* Signup Form */}
       <form className="space-y-3 p-3"onSubmit={handleSubmit(onSubmit)} >
 
@@ -107,9 +138,9 @@ useEffect(()=>{},[]);
                   {...register("firstName")}
 
                    />
-            {errors.firstName&& <p className='text-error'>{errors.firstName.message}</p>}
 
           </div>
+          {errors.firstName&& <p className='text-error text-xs'>{errors.firstName.message}</p>}
 
         </div>
 
@@ -129,10 +160,10 @@ useEffect(()=>{},[]);
                   {...register("lastName")}
 
                    />
-            {errors.lastName&& <p className='text-error'>{errors.lastName.message}</p>}
                    
 
           </div>
+          {errors.lastName&& <p className='text-error text-xs'>{errors.lastName.message}</p>}
 
         </div>
 
@@ -152,10 +183,10 @@ useEffect(()=>{},[]);
                   {...register("email")}
 
                    />
-            {errors.email&& <p className='text-error'>{errors.email.message}</p>}
                    
 
           </div>
+          {errors.email&& <p className='text-error text-xs'>{errors.email.message}</p>}
 
         </div>
                 {/* Password Field */}
@@ -169,7 +200,7 @@ useEffect(()=>{},[]);
 
               <Lock className="absolute left-3 size-6 text-primary z-10"/>
 
-            <div className="relative w-full overflow-hidden">
+            <div className="relative w-full ">
 
               <input 
                   type={showPassword?"text":"password"}
@@ -195,14 +226,22 @@ useEffect(()=>{},[]);
 
             </button>
 
-            {errors.password&& <p className='text-error'>{errors.password.message}</p>}
                    
 
           </div>
+          {errors.password&& <p className='text-error text-xs'>{errors.password.message}</p>}
 
         </div>
           {/* Submit Button */}
-        <button type="submit" className="btn btn-primary w-full">Sign Up</button>      
+        <button type="submit" className="btn btn-primary w-full " disabled={isSigningUp}>
+
+        {isSigningUp ? (
+                  <Loader2 className="size-5 animate-spin" />
+                ) : (
+                  "Sign Up"
+                )}  
+
+        </button>      
 
       </form>
 

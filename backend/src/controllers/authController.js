@@ -127,9 +127,24 @@ export const userLogin=async (req,res)=>{
     }
 
      catch (error) {
-        console.log("Something broke in the backend  ogin controller function",error);
+        console.log("Something broke in the backend  origin login controller function",error);
+
         return res.status(500).json({message:"Internal Server Error"});
 
         
+    }
+}
+//logout out function that will clear the cookies and log the user out
+export const logout=async(req,res)=>{
+
+    try {
+     res.cookie("jwt","",{maxAge:0});
+     
+     return req.status(200).json("successfully Logged out from the client")
+    }
+    
+    catch(error) {
+        console.log("Error in backend logout function",error);
+        return res.status(500).json("kInternal Server Error");
     }
 }

@@ -32,7 +32,7 @@ const userSchema=mongoose.Schema(
         }
     },
 
-    {tmiestamp:true}
+    {tmiestamps:true}
 );
 //userSchema created for the documents and their attributes 
 const userModel=mongoose.model("User",userSchema);

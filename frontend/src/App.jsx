@@ -15,7 +15,7 @@ import { authStore } from './store/authStore';
 function App() {
   const [count, setCount] = useState(0)
 
-  const { authUser } = authStore.getState(); // Access Zustand store state
+  const authUser = authStore((state) => state.authUser); // Access Zustand store state
 
   //access the zustand state on each render event
   useEffect(() => {
