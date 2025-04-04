@@ -7,6 +7,7 @@ import { Link,useNavigate } from 'react-router-dom';
 import * as z from "zod"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import SpiningLoader from '../components/loader';
 
 
 // Add this CSS to hide browser's default password toggle
@@ -31,7 +32,7 @@ const hidePasswordToggleStyle = `
 const SignupPage = () => {
 
 
-  const navigate=useNavigate();
+
 
   // create a Scheme Object from zod
   const signupSchema = z.object({
@@ -69,7 +70,7 @@ const SignupPage = () => {
 
 
   const [showPassword,setShowPassword] = useState(false);
-
+  const[showLoader,setShowLoader]=useState(true);
 //state from the zustand library imported for signing up and signedup
   const {signUp,isSigningUp,isSignedUp}=authStore.getState();
 
@@ -94,9 +95,25 @@ const SignupPage = () => {
 
 
 useEffect(()=>{
-  console.log("This runs on every re-render");
+
+  setTimeout(()=>{
+  setShowLoader()
+},2000);
+
 },[]);
 
+ if (showLoader)
+ {
+  return(
+
+    <div className="bg-white flex items-center justify-center h-screen w-screen">
+    <SpiningLoader size={120}  />
+    </div>
+  
+);
+ }
+
+ else if (!showLoader){
 
   return (
     <>
@@ -264,6 +281,7 @@ useEffect(()=>{
 
     </>
   )
+  }
 }
 
 export default SignupPage

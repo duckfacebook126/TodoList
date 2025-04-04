@@ -7,7 +7,7 @@ import { Link,useNavigate } from 'react-router-dom';
 import * as z from "zod"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import SpiningLoader from '../components/loader';
 
 // Add this CSS to hide browser's default password toggle
 const hidePasswordToggleStyle = `
@@ -31,7 +31,7 @@ const hidePasswordToggleStyle = `
 const LoginPage = () => {
 
 
-  const navigate=useNavigate();
+  
 
   // create a Scheme Object from zod
   const loginSchema = z.object({
@@ -61,26 +61,25 @@ const LoginPage = () => {
 
 
   const [showPassword,setShowPassword] = useState(false);
-
+//Loader boolean
+   const[showLoader,setShowLoader]=useState(true);
+  
 //state from the zustand library imported for signing up and signedup
-  const {login,isSigningUp,isLoggedIn,isLoggingIn}=authStore.getState();
+  const {login,isLoggingIn}=authStore.getState();
 
   //custom onusubmit function
   const onSubmit=async(data)=>{
 
     try {
+
       await login(data);
-
-      console.log("Successfully  logged Up");
-      navigate('/');
-
       
     } 
 
     catch (error) {
       const errorMessage = error.response?.data?.message || "Login failed. Please try again.";
       toast.error(errorMessage); 
-      console.log('Signupp Failed',error)
+      console.log('Login Failed',error);
     }
   }
 
@@ -88,9 +87,30 @@ const LoginPage = () => {
 
 
 useEffect(()=>{
-  console.log("This runs oonce  the component mounts");
+
+  setTimeout(()=>{
+  setShowLoader(false)
+},2000);
+
 },[]);
 
+if (showLoader)
+  {
+   return(
+ 
+     <div className="bg-white flex items-center justify-center h-screen w-screen">
+
+     <SpiningLoader size={120} />
+     
+     </div>
+   
+ );
+
+
+  }
+
+  else if(!showLoader)
+    {
 
   return (
     <>
@@ -102,7 +122,7 @@ useEffect(()=>{
   style={{ backgroundImage: "url('/mbl-head-office.jpg')" }}
 >
   {/* Login Flex Row */}
-  <div className="h-130 w-200 flex flex-row gap-0 bg-white/73 p-4 rounded-lg shadow-lg">
+  <div className="h-100 w-200 flex flex-row gap-0 bg-white/73 p-4 rounded-lg shadow-lg ">
 
     {/* Left Side (Meezan Bank Logo) */}
     <div className="w-1/2  p-4 flex items-center justify-center">
@@ -112,7 +132,7 @@ useEffect(()=>{
     {/* Right Side (Login Form) */}
     <div className="w-1/2 border-3 border-white/73  rounded-2xl flex-col bg-white">
 
-            {/* Signup Form */}
+            {/* Login Form */}
       <form className="space-y-3 p-3"onSubmit={handleSubmit(onSubmit)} >
 
                 {/* Email Field */}
@@ -197,7 +217,7 @@ useEffect(()=>{
             <p className="text-base-content/60">
             Don't have an Account?{" "}
             <Link to="/signup" className="link link-primary">
-            Sign up Here
+            Signup Here
             </Link>
             
             </p>
@@ -212,6 +232,7 @@ useEffect(()=>{
 
     </>
   )
+}
 }
 
 export default LoginPage

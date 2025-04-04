@@ -3,8 +3,10 @@ import {create} from "zustand"
 import toast from "react-hot-toast";
 const baseURL="http://localhost:5006";
 import { axiosInstance } from "../lib/axios";
-
-    export const authStore= create((set,get)=>({
+import{persist,createJSONStorage} from 'zustand/middleware'
+    export const authStore= create(
+        persist(
+        (set,get)=>({
 
             authUser:null,
             isSigningup:false,  
@@ -71,7 +73,39 @@ import { axiosInstance } from "../lib/axios";
 
                     set({isSigningup:false});
                 }
+            },
+
+            login:async(data)=>{
+                try {
+
+                    set({isLoggingIn:true});
+                    
+                    const res =await axiosInstance.post("/auth/login",data);
+
+                     set({authUser:res.data});
+
+                     toast.success("Successfully Logged in");
+
+
+                } 
+                catch (error) {
+                    console.log("Error in logout zustand call",error);
+                    const errorMessage=error.response.data.message;
+                    toast.error(errorMessage);
+                }
+
+                finally{
+                    set({isLoggingIn:false});
+
+                }
             }
 
 
-    }));
+    }
+),
+
+    {
+        name: 'auth-storage', // Unique name for the storage key
+        storage: createJSONStorage(() => sessionStorage), // Use sessionStorage
+    }
+));

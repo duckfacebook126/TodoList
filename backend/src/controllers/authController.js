@@ -135,16 +135,17 @@ export const userLogin=async (req,res)=>{
     }
 }
 //logout out function that will clear the cookies and log the user out
-export const logout=async(req,res)=>{
+export const userLogout=async(req,res)=>{
 
     try {
      res.cookie("jwt","",{maxAge:0});
      
-     return req.status(200).json("successfully Logged out from the client")
+     return res.status(200).json("successfully Logged out from the client");
+
     }
     
     catch(error) {
         console.log("Error in backend logout function",error);
-        return res.status(500).json("kInternal Server Error");
+        return res.status(500).json("Internal Server Error");
     }
 }

@@ -20,7 +20,7 @@ function App() {
   //access the zustand state on each render event
   useEffect(() => {
     authStore.getState();
-  }, []);
+  });
 
   console.log(authUser);
 //UI For the SignUp Page
@@ -29,7 +29,6 @@ function App() {
 
       <>
         <div data-theme="mytheme">
-            <Navbar/>
             <BrowserRouter>
               
                 <Routes>
