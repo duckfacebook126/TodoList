@@ -100,7 +100,7 @@ export const userLogin=async (req,res)=>{
 
        if(!dbUser)
        {
-        return res.status(400).json("Invalid Credentials");
+        return res.status(400).json({message:"Invalid Credentials"});
        }
 
        //now compare the enntered passowrd from the entered password
@@ -109,9 +109,9 @@ export const userLogin=async (req,res)=>{
        //if passowr ddoes not matches
        if(!isPasswordCorrect)
         {
-         return res.status(400).json("Invalid Credentials");
+         return res.status(400).json({message:"Invalid Credentials"});
         }
-       //if the password is correct then just  generate a jwt token for the user by using the user id
+       //if the password is correct and user is present  then just  generate a jwt token for the user by using the user id
 
        const token =await generateToken(dbUser._id,res);
         // then just send the user as a response on successfull userlogin
@@ -127,14 +127,12 @@ export const userLogin=async (req,res)=>{
     }
 
      catch (error) {
-        console.log("Something broke in the backend  origin login controller function",error);
-
+        console.log("Something broke in the backend  ogin controller function",error);
         return res.status(500).json({message:"Internal Server Error"});
 
         
     }
 }
-//logout out function that will clear the cookies and log the user out
 export const userLogout=async(req,res)=>{
 
     try {
