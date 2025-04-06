@@ -89,8 +89,8 @@ import{persist,createJSONStorage} from 'zustand/middleware'
 
                 } 
                 catch (error) {
-                    console.log("Error in logout zustand call",error);
-                    const errorMessage=error.response.data.message;
+                    console.log("Error in login zustand call",error.response.data);
+                    const errorMessage=error.response.data;
                     toast.error(errorMessage);
                 }
 
@@ -98,7 +98,27 @@ import{persist,createJSONStorage} from 'zustand/middleware'
                     set({isLoggingIn:false});
 
                 }
+            
+            },
+
+            logout:async()=>{
+                try {
+
+                    set({isLoggedIn:false});
+                    
+                    const res = await axiosInstance.post("/auth/logout");
+
+                    set({authUser:null});
+
+                    toast.success("ILogout Successfull");
+                    }
+                 catch (error)
+                 {
+                    console.log("Eror Logout Zustand Call",error);
+                    toast.error(error.response.data);
+                }
             }
+            
 
 
     }

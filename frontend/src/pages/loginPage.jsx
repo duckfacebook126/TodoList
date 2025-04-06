@@ -85,6 +85,7 @@ const LoginPage = () => {
 
 
 
+//timer for loading screen
 
 useEffect(()=>{
 
@@ -203,7 +204,7 @@ if (showLoader)
           {/* Submit Button */}
         <button type="submit" className="btn btn-primary w-full " disabled={ isLoggingIn}>
 
-        {isSigningUp ? (
+        {isLoggingIn ? (
                   <Loader2 className="size-5 animate-spin" />
                 ) : (
                   "Login"

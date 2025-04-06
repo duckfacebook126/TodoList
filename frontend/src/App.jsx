@@ -4,7 +4,6 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { useState,useEffect } from 'react'
 import { Routes, Route, Navigate,Router,BrowserRouter } from 'react-router-dom';
-import Navbar from './components/navbar';
 import { Toaster } from 'react-hot-toast';
 import SignupPage from './pages/SignupPage';
 import HomePage from './pages/homePage';
