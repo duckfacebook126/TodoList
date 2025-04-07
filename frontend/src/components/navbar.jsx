@@ -8,9 +8,9 @@ import Sidebar from './sidebar';
 const Navbar = () => {
 
 const {logout}=authStore();
-//show the Side bar
+//show the Side bar boolean
 const [showSideBar, setShowSideBar]=useState(false);
-
+//for tracking sidebar Menu clicks
 const[sidebarClickMenu,setSidebarClickMenu]=useState(1);
 
 const handleMenuClickCounter = () => {
@@ -21,7 +21,7 @@ const handleMenuClickCounter = () => {
   }
 };
 
-
+//menu clicking behaviour for sidebar
 const handleMenuClick=()=>
 {
   handleMenuClickCounter();
@@ -38,7 +38,7 @@ useEffect(() => {
 }, []);
 
 
-
+//for toggling the visiblity of the sidebar
 const toggleVisibility=()=>{
 setShowSideBar(!showSideBar);
 }
@@ -53,6 +53,7 @@ setShowSideBar(!showSideBar);
 </Sidebar>
 </div>
 
+{/* Main navbar  Component */}
 <div className="navbar bg-secondary shadow-sm">
   <div className="flex justify-between items-center w-full p-4">
     {/* Side bar Button On the Left */}
