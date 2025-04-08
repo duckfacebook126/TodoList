@@ -3,6 +3,7 @@ import {create} from "zustand"
 import toast from "react-hot-toast";
 const baseURL="http://localhost:5006";
 import { axiosInstance } from "../lib/axios";
+//for having persistent state in the app even after reloading
 import{persist,createJSONStorage} from 'zustand/middleware'
     export const authStore= create(
         persist(
