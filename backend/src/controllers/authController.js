@@ -3,10 +3,14 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs"
 
 import { generateToken } from "../lib/jwt.js";
+import { decryptData } from "../lib/cryptoUtils.js";
 
 export const userSignup=async(req,res)=>{
 
-    const {email,firstName,lastName,password}=req.body;
+    const encryptedPayload = req.body.encryptedPayload;
+    // req.body is the encrypted string
+    const decryptedData = decryptData(encryptedPayload);
+    const {email,firstName,lastName,password}=decryptedData;
     const userEmail=email;
     try{
     //fisrt check if there is any other user present with the same email inside the database
@@ -91,7 +95,10 @@ export const userLogin=async (req,res)=>{
 
 
     try {
-        const {email,password}=req.body;
+        // decrypted incoming request
+        const encryptedData=req.body.encryptedPayload
+        const decryptedData=decryptData(encryptedData);
+        const {email,password}=decryptedData;
        //now check if the user is present by cross checking the email
        
        const dbUser= await userModel.findOne({email});

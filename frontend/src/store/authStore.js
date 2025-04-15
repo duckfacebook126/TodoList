@@ -5,6 +5,7 @@ const baseURL="http://localhost:5006";
 import { axiosInstance } from "../lib/axios";
 //for having persistent state in the app even after reloading
 import{persist,createJSONStorage} from 'zustand/middleware'
+import { encryptData } from "../lib/cryptoUtils";
     export const authStore= create(
         persist(
         (set,get)=>({
@@ -43,8 +44,15 @@ import{persist,createJSONStorage} from 'zustand/middleware'
                 try {
                 
                     set({isSigningup:true});
+                    const encryptedData =encryptData(data);
+                    
+                    const encryptedRequestBody={
+                        encryptedPayload:encryptedData
+                    }
 
-                    const userData =await axiosInstance.post("/auth/signup",data);
+
+                    const userData =await axiosInstance.post("/auth/signup",encryptedRequestBody);
+
                     //if the data is null
                     if(!userData)
                     {
@@ -78,10 +86,15 @@ import{persist,createJSONStorage} from 'zustand/middleware'
 
             login:async(data)=>{
                 try {
+                    const encryptedData =encryptData(data);
+                    
+                    const encryptedRequestBody={
+                        encryptedPayload:encryptedData
+                    }
 
                     set({isLoggingIn:true});
                     
-                    const res =await axiosInstance.post("/auth/login",data);
+                    const res =await axiosInstance.post("/auth/login",encryptedRequestBody);
 
                      set({authUser:res.data});
 

@@ -26,7 +26,7 @@ const SidebarItems=[
   return (
     <div className="fixed bg-base left-0 h-full w-64 shadow-2xl items-center justify-center">
       <div className="flex flex-col ">
-          <divvclassName="">
+          <div className="flex item-center justify-center">
             <img src="/navbarlogo.png" alt="navbar-logo-supposed--be-here" />
           </div>
 
