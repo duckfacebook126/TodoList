@@ -39,14 +39,12 @@ const LoginPage = () => {
 
     email: z
       .string()
-      .email("Invalid email format"),
-  
+      .nonempty('Email is required'),
+      
     password: z
-      .string()
-      .min(6, "Password must be at least 6 characters")
-      .max(12, "Password must be at most 12 characters")
-      .regex(/[0-9]/, "Password must contain at least one number")
-      .regex(/[\W_]/, "Password must contain at least one special character"), // Ensures at least one special char
+      .string({required_error:"password is required",})
+      .nonempty("Password is required")
+  // Ensures at least one special char
   });
   
   //destructure the form functions from the 
@@ -56,7 +54,8 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(loginSchema),
-    mode:"onBlur"
+    mode:"onBlur",
+    criteriaMode: "firstError"
   });
 
 
@@ -79,7 +78,6 @@ const LoginPage = () => {
     catch (error) {
       const errorMessage = error.response?.data?.message || "Login failed. Please try again.";
       toast.error(errorMessage); 
-      console.log('Login Failed',error);
     }
   }
 

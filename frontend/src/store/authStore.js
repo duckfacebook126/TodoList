@@ -27,7 +27,6 @@ import { encryptData } from "../lib/cryptoUtils";
                 catch(error)
                 {    set({authUser:null});
 
-                    console.log("Error in Authcheck",error);
                 }
 
 
@@ -69,7 +68,6 @@ import { encryptData } from "../lib/cryptoUtils";
 
                 catch (error) {
 
-                    console.log("Error caught from signup Frontend",error.response.data.message);
                     const errorMessage=error.response.data.message;
                     toast.error(errorMessage);
                     throw error;
@@ -97,15 +95,14 @@ import { encryptData } from "../lib/cryptoUtils";
                     const res =await axiosInstance.post("/auth/login",encryptedRequestBody);
 
                      set({authUser:res.data});
-
                      toast.success("Successfully Logged in");
 
 
                 } 
                 catch (error) {
-                    console.log("Error in login zustand call",error.response.data);
-                    const errorMessage=error.response.data;
+                    const errorMessage = error.response?.data?.message || "login Failed";
                     toast.error(errorMessage);
+                    set({ authUser: null, isLoggedIn: false });
                 }
 
                 finally{
@@ -124,11 +121,10 @@ import { encryptData } from "../lib/cryptoUtils";
 
                     set({authUser:null});
 
-                    toast.success("ILogout Successfull");
+                    toast.success("Logout Successfull");
                     }
                  catch (error)
                  {
-                    console.log("Eror Logout Zustand Call",error);
                     toast.error(error.response.data);
                 }
             }

@@ -5,7 +5,7 @@ import './App.css'
 import { useState,useEffect } from 'react'
 import { Routes, Route, Navigate,Router,BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import SignupPage from './pages/SignupPage';
+import SignupPage from './pages/signupPage';
 import HomePage from './pages/homePage';
 import LoginPage from './pages/loginPage'
 import { Loader } from 'lucide-react';
@@ -21,7 +21,6 @@ function App() {
     authStore.getState();
   });
 
-  console.log(authUser);
 //UI For the SignUp Page
 
   return (

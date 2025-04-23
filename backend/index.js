@@ -8,7 +8,8 @@ import { connectDb } from "./src/lib/db.js";
 dotenv.config();
 const app =express();
 //created an express application
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: "http://localhost:5173", credentials:true , methods: ["GET", "POST", "PUT", "DELETE"], // Explicitly allow these methods
+    allowedHeaders: ["Content-Type", "Authorization","Cookie"]  }));
 //allow coross oriigin resource access
 app.use(cookieParser()); //enable cookies
 app.use(express.json());// enable json requests incoming and out going

@@ -11,20 +11,18 @@ const {selectedSidebarItem,setSelectedSidebarItem}=sidebarStore();
 //uesEfect Function
   useEffect(
     ()=>{
-      console.log('selected menu item',selectedSidebarItem);
-    }
+      console.log("Sidebar Mounted");
+    },[]
   );
 
 
 const SidebarItems=[
-  'ToDo',
-  'In Progress',
-  'Done',
+  'Tasks',
   'Progress Report'
 ];
 
   return (
-    <div className="fixed bg-base left-0 h-full w-64 shadow-2xl items-center justify-center">
+    <div className="fixed bg-base left-0 h-full w-64 shadow-2xl items-center justify-center z-60 bg-white">
       <div className="flex flex-col ">
           <div className="flex item-center justify-center">
             <img src="/navbarlogo.png" alt="navbar-logo-supposed--be-here" />

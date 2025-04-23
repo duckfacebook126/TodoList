@@ -1,15 +1,15 @@
 
 import jwt from "jsonwebtoken"
-
+import userModel from "../models/user.model.js";
 import mongoose from "mongoose";
-import userModel from "../models/user.model";
+
 import dotenv from "dotenv";
 dotenv.config();
 
 export const checkAuth=async(req,res,next)=>{
     try {
-
-        const token=req.body.cookies.jwt;
+            
+        const token=req.cookies.jwt;
 
         if(!token)
         {

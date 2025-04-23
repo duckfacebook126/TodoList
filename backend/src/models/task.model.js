@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import userModel from "./user.model";
+import userModel from "./user.model.js";
 const taskSchema=mongoose.Schema({
 
 userId:{
@@ -29,8 +29,9 @@ title:{
     required:true
 }
 
-});
+}
+,{timestamps:true});
 //creating the task Schema
-const taskModel=mongoose.Model("taskModel",taskSchema);
+const taskModel=mongoose.model("taskModel",taskSchema);
 //creating the task model
 export default taskModel; 

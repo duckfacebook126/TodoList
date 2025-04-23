@@ -19,8 +19,8 @@ export const generateToken=async(userId,res)=>{
         res.cookie("jwt",token,{
             maxAge:7*24*60*60*1000,
             httpOnly:true,
-            sameSite:true,
-            secure:process.env.NODE_ENV!=='development'
+            secure: true, // HTTPS-only in production
+            sameSite: "strict"
 
         });
 

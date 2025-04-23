@@ -7,6 +7,7 @@ import Sidebar from './sidebar';
 
 const Navbar = () => {
 
+
 const {logout}=authStore();
 //show the Side bar boolean
 const [showSideBar, setShowSideBar]=useState(false);
@@ -33,7 +34,7 @@ const handleMenuClick=()=>
 const sidebarRef=useRef(null);
 
 useEffect(() => {
-
+  console.log("Navbar Mounted");
     
 }, []);
 
@@ -47,7 +48,7 @@ setShowSideBar(!showSideBar);
     <>
   
   {/* Sidebar Component TO be shown or hidden */}
-<div ref={sidebarRef} className={`fixed top-[88px] left-0 h-full w-64 bg-base shadow-md z-50 transistion-transform duration-300 ${showSideBar&&sidebarClickMenu===0? 'transalate-x-0': '-translate-x-full'}`}>
+<div ref={sidebarRef} className={`fixed top-[88px] left-0 h-full w-64 bg-base shadow-md z-60 transition-transform duration-300 ${showSideBar&&sidebarClickMenu===0? 'translate-x-0': '-translate-x-full'}`}>
 <Sidebar>
 
 </Sidebar>

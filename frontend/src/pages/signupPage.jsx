@@ -87,7 +87,6 @@ const SignupPage = () => {
 
     catch (error) {
  
-      console.log('Signupp Failed',error)
     }
   }
 

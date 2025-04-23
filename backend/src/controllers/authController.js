@@ -78,8 +78,8 @@ export const userSignup=async(req,res)=>{
     catch(error)
 
     {
-        console.log("Error inside the backend controller signup function:",error);
-    return res.status(500).json({message:'Internal Server Error'});
+
+        return res.status(500).json({message:'Internal Server Error'});
 
     }
 
@@ -123,7 +123,7 @@ export const userLogin=async (req,res)=>{
        const token =await generateToken(dbUser._id,res);
         // then just send the user as a response on successfull userlogin
 
-       return res.status(200).json(
+        return res.status(200).json(
         {
             userId:dbUser._id,
             firstName:dbUser.firstName,
@@ -134,7 +134,7 @@ export const userLogin=async (req,res)=>{
     }
 
      catch (error) {
-        console.log("Something broke in the backend  ogin controller function",error);
+
         return res.status(500).json({message:"Internal Server Error"});
 
         
@@ -150,7 +150,6 @@ export const userLogout=async(req,res)=>{
     }
     
     catch(error) {
-        console.log("Error in backend logout function",error);
         return res.status(500).json("Internal Server Error");
     }
 }
