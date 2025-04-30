@@ -2,9 +2,12 @@ import React from 'react'
 import Navbar from '../components/navbar'
 import { sidebarStore } from '../store/sidebarStore'
 import TaskPage from './taksPage';
+import ProgressReport from './ProgressReport';
 const HomePage = () => {
 // get the current state of the selected Sidebar elements
 const {selectedSidebarItem,setSelectedSidebarItem}=sidebarStore();
+
+
 const navBarHeight='88px';
   return (
     <> 
@@ -22,7 +25,7 @@ const navBarHeight='88px';
 
 
             {selectedSidebarItem==='Progress Report'&&
-            <p>Progress Report Page</p>
+            <ProgressReport></ProgressReport>
             }
 
 

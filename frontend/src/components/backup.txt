@@ -1,0 +1,165 @@
+import React, { useState,useEffect } from 'react'
+import { useTaskStore } from '../store/taskStore'
+import { format } from 'date-fns';
+import { Pencil } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
+ const TasksTable = () => {
+    const {tasks,isAddFormOpen,isEditFormOpen,isDeleteDialogOpen,set,deleteTask,openDeleteDialogBox,closeDeleteDialogBox,openEditForm,closeEditForm,setSelectedTask}=useTaskStore();
+
+    const [taskToDelete,setTaskToDelete]=useState(null);
+    const [takstoEdit,setTasktoEdit]=useState(null);
+;
+useEffect(()=>{
+},[isDeleteDialogOpen]);
+ 
+
+//handles the editing the specific tasks
+const editTaskHandler=(task)=>{
+    console.log('slected Task is:',task);
+    openEditForm();
+    setSelectedTask(task);
+
+}
+//sets the task id in the task table for setting up deletion
+const deleteTaskHandler=(task)=>{
+    openDeleteDialogBox();
+    const taskId = task._id
+    setTaskToDelete(taskId);
+}    
+
+//fires on deleteion of the clicking on the dialog deletion box
+const deleteTaskById=(taskToDelete)=>
+{
+console.log('Slected taks toDelte is' ,taskToDelete);
+ deleteTask(taskToDelete);
+ closeDeleteDialogBox();
+}
+
+//will fire when the close button onn the delete dialog box will be clicked
+const closeDeleteDialog=()=>{
+
+    console.log('close delete dialog called');
+    closeDeleteDialogBox();
+    setTaskToDelete(null);
+
+}
+
+//pagination algorithm below
+
+const numberOfTasks=tasks.length;
+const numberofPages=countPages(numberOfTasks);
+const rowsPerPage=5;
+// count the total number of pages
+const countPages=(numberOfTasks)=>{
+const totalPages=Math.ceil(numberOfTasks/rowsPerPage);
+return totalPages;
+}
+
+
+  return (
+    <>
+
+    {/* Delete Dialog box */}
+
+    <dialog className={`modal  ${isDeleteDialogOpen?'modal-open z-35 ':''}`} >
+        <div className='modal-box  w-80 h-60 relative flex flex-col'>
+
+
+        <h3 className='text-primary font-bold text-2xl'>Delete </h3>
+        <p className='flex-grow'>Are you sure you want to delete this?</p>
+          
+          <div className='modal-actions flex items-center justify-between w-full'>
+            <button className='btn btn-base text-primary' onClick={closeDeleteDialog} type="button">Close</button>
+            <button className='btn btn-primary' onClick={()=>{deleteTaskById(taskToDelete)}} type="button">Delete</button>
+          </div>
+
+        </div>
+      </dialog>
+    
+
+        <div className='overflow-x-auto rounded-box border border-base-content/5 bg-base-100 z-30'>
+            <table className='table'>
+                {/* table header */}
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Status</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+
+
+                    </tr>
+                </thead>
+                {/* Table Body */}
+                <tbody>
+                {tasks.map((task,index)=>{
+                    
+                    const formattedStartDate=task.startDate?
+                    format(new Date(task.startDate),'yyyy-MM-dd'):'N/A';
+
+                    const formattedEndDate=task.endDate?
+                    format(new Date(task.endDate),'yyyy-MM-dd'):'N/A';
+
+                    return(
+                <tr key={index}>
+                    {/* row data */}
+                    <td>{task.title}</td>
+                    <td>{formattedStartDate}</td>
+                    <td>{formattedEndDate}</td>
+                    <td>{task.status} </td>
+
+                        {/* edit  button */}
+                    <td>
+                       <button className='btn' type="button"
+                       style={{
+                        background:'transparent',
+                        display:'flex',
+                        border:'none',
+                        borderRadius:'100%',
+                        justifyContent:'center',
+                        alignItems:'center',
+                        
+
+                       }}
+
+                       onClick={()=>{editTaskHandler(task) }}
+
+                       
+                       >
+                            <Pencil className='size-5 text-primary'></Pencil>
+                       </button>     
+                    </td>
+                       {/* delete button */}
+                    <td>
+                       <button className='btn' type="button"
+                       style={{
+                        background:'transparent',
+                        display:'flex',
+                        border:'none',
+                        borderRadius:'100%',
+                        justifyContent:'center',
+                        alignItems:'center',
+
+                       }}
+                       onClick={()=>{deleteTaskHandler(task) }}
+                       >
+
+                            <Trash2 className='size-5 text-error'></Trash2> 
+                       </button>     
+                    </td>
+
+            
+                </tr>
+                          )
+
+                    })}
+                </tbody>
+            </table>
+        </div>
+    </>
+  )
+}
+
+export default TasksTable

@@ -9,6 +9,8 @@ import { authStore } from '../store/authStore';
 const TaskPage = () =>  {
 
   const {authUser}=authStore();
+
+  console.log(authUser);
   const userId=authUser.userId;
   //get the taks state from the zustand store
 const{openAddForm,isAddFormOpen,isEditFormOpen,isDeleteDialogOpen,closeAddForm,tasks,fetchTasks, openEditForm,closeEditForm}=useTaskStore();

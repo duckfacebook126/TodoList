@@ -2,15 +2,15 @@ import React, { useEffect } from 'react'
 import * as z from "zod"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { isBefore } from 'date-fns';
 import { useTaskStore } from '../store/taskStore';
-
+import { isBefore, format } from 'date-fns';
+import { addTask } from '../../../backend/src/controllers/taskController';
 const EditForm = () => {
 
-    const {isEditFormOpen,editTask,selectedTask}=useTaskStore();
+    const {isEditFormOpen,editTask,selectedTask,closeEditForm}=useTaskStore();
 
 
-
+  
 
 // initialize zod schema
 
@@ -18,10 +18,12 @@ const editTaskSchema=z.object(
     {
         startDate:z
         .string()
+        .nonempty('Start date is required')
         .transform(val=>new Date(val)),
 
         endDate:z
         .string()
+        .nonempty('End date is required')
         .transform(val=>new Date(val)),
 
         status:z.
@@ -61,16 +63,53 @@ const {
   const onSubmit=async(data)=>{
 
     try {
-      await editTask(data);
+      const taskId=selectedTask._id;
+      await editTask(data,taskId);
+      closeEditForm();
     } catch (error) {
+      console.log('error  in onsubmit editpage function',error);
     }
 
   } 
 
+
+  const editTaskData={}
 //will set the selected Task State on each render
+const formatDateYYYYMMDD=(date)=>{
+  if(date instanceof Date)
+  {
+    return format(date, 'yyyy-MM-dd');
+
+  }
+    else {
+      console.log(' tthe input is not a date object');
+      return null;
+    }
+
+}
+
+
+//convert the date into the format the form can read and then prefill using the reset function
   useEffect(()=>{
-    reset(selectedTask);
-  },[selectedTask,reset]);
+    if(selectedTask)
+    {
+
+      const formattedStartDate=formatDateYYYYMMDD(new Date(selectedTask.startDate));
+      const formattedEndDate=formatDateYYYYMMDD(new Date(selectedTask.endDate));
+      console.log('fomated satrt date is',formattedStartDate);
+      console.log('formattted End date is',formattedEndDate);
+
+      reset(
+        {
+          ...selectedTask,
+          startDate:formattedStartDate,
+          endDate:formattedEndDate
+        }
+      );
+      console.log("Form values after reset:", watch()); // Log the entire form state
+
+    }
+  },[reset,selectedTask,watch]);
 
   //tracking start date to be used as miin and max slkeider inside the form field
   const startDate=watch("startDate");
@@ -120,7 +159,9 @@ const {
             <label className='label text-primary'>Start Date</label>
             <input 
             type="date"
-            className='date border-full input w-full border-primary  '
+           
+            
+            className='input border-full input w-full border-primary  '
             style={{
                 outline: 'none',
                 boxShadow: 'none'
@@ -131,6 +172,49 @@ const {
                 
             </input>
         </div>
+
+        {/* start date errors */}
+
+        <div style={{minHeight:'20px'}}>{errors.startDate&& <p className='text-error text-xs'>{errors.startDate.message}</p>}</div>
+
+        {/* endDate */}
+
+        <div className='form-control'>
+            <label className='label text-primary'>End Date</label>
+            <input 
+            type="date"
+           
+            
+            className='input border-full input w-full border-primary  '
+            style={{
+                outline: 'none',
+                boxShadow: 'none'
+                }} 
+                
+            {...register('endDate')}
+
+            min={startDate}
+            >
+                
+            </input>
+        </div>
+
+        {/* end date errors */}
+
+        <div style={{minHeight:'20px'}}>{errors.endDate&& <p className='text-error text-xs'>{errors.endDate.message}</p>}</div>
+
+          {/* form Buttons */}
+        <div className='form-control w-full flex justify-between'>
+        <button className='btn btn-white text-primary'onClick={closeEditForm} type='button'>
+          Close 
+        </button>
+              
+        <button type="submit" className='btn  btn-primary'>
+          Save
+        </button>
+
+      </div>
+
 
             </form>
         </div>

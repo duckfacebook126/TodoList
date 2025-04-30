@@ -8,7 +8,7 @@ import { connectDb } from "./src/lib/db.js";
 dotenv.config();
 const app =express();
 //created an express application
-app.use(cors({ origin: "http://localhost:5173", credentials:true , methods: ["GET", "POST", "PUT", "DELETE"], // Explicitly allow these methods
+app.use(cors({ origin: "http://localhost:5173", credentials:true , methods: ["GET", "POST", "PUT", "DELETE","PATCH"], // Explicitly allow these methods from cross origin resources
     allowedHeaders: ["Content-Type", "Authorization","Cookie"]  }));
 //allow coross oriigin resource access
 app.use(cookieParser()); //enable cookies

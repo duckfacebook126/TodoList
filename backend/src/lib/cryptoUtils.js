@@ -4,6 +4,7 @@ const ENCRYPTION_KEY=process.env.AES_ENCRYPTION_KEY;
 //inntialization vector
 const IV_LENGTH=16;
 const DECRYPTION_KEY=process.env.AES_ENCRYPTION_KEY;
+
 export function encryptData(data)
 {
     if(!ENCRYPTION_KEY)
@@ -15,14 +16,14 @@ export function encryptData(data)
 
     if(!data)
     {
-        console.log("Nom dtat provided");
+        console.log("No data provided");
         return null;
 
     }
 
     try{
         //create a  random initialization vector of 16 byte length
-        const iv=crypto.randomBytes(IV_LENGTH);
+        const iv=crypto.randomBytes(IV_LENGTH);//will be a buffer object
         //now just cretae a cipherm object using the algrithm encrylption key utf8 and iv
         const cipher= crypto.createCipheriv('aes-256-cbc',Buffer.from(ENCRYPTION_KEY,'utf8'),iv);
         // now finally create the encrypted data using the cipher and the data itself
@@ -50,7 +51,7 @@ export function encryptData(data)
 
     }
     catch(error){
-        //throw anerror if something unexpected happens
+        //throw an error if something unexpected happens
         console.log('Error inside the encryption function',error);
         return null;
     }

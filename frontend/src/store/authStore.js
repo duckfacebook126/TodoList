@@ -93,10 +93,10 @@ import { encryptData } from "../lib/cryptoUtils";
                     set({isLoggingIn:true});
                     
                     const res =await axiosInstance.post("/auth/login",encryptedRequestBody);
-
+                    
                      set({authUser:res.data});
-                     toast.success("Successfully Logged in");
 
+                     toast.success("Successfully Logged in");
 
                 } 
                 catch (error) {

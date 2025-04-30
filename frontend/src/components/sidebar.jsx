@@ -32,7 +32,7 @@ const SidebarItems=[
           <button
             key={index}
 
-            className={`p-4 w-full text-left hover:bg-base-300 ${selectedSidebarItem===item?'border-r-4 border-primary bg-base-300':''}`
+            className={`p-4 w-full text-left hover:bg-base-300 ${selectedSidebarItem===item? 'transition-opacity duration-10 border-r-4 border-primary bg-base-300':''}`
             }
 
             onClick={()=>{setSelectedSidebarItem(item)}}

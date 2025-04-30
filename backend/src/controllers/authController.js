@@ -21,13 +21,13 @@ export const userSignup=async(req,res)=>{
 
         if(!email||!firstName ||!lastName||!password)
         {
-            return res.status(400).json({message:"All fileds are required"});
+            return res.status(400).json({message:"All fields are required"});
         }
 
 
         if(password.length<6)
         {
-            return res.status(400).json({message:"Password must be greater than 6 characters"})
+            return res.status(400).json({message:"Password must be greater than 6 characters"});
         }
 
         const findUserByEmail=await userModel.findOne({email});
@@ -51,10 +51,10 @@ export const userSignup=async(req,res)=>{
         if(newUser)
         {
 
-
+        //provide token if the user is present
             generateToken(newUser._id,res);
 
-
+    
         return res.status(201).json({message:"New User has been inserted in the database",
             userId:newUser._id,
             firstName:newUser.firstName,

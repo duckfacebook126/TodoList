@@ -58,7 +58,7 @@ export const useTaskStore= create((set,get)=>(
           
             }
         },
-
+        //this will fetch all the tasks from the databse for the authenticated user
         fetchTasks:async(userId)=>
         {
 
@@ -77,7 +77,7 @@ export const useTaskStore= create((set,get)=>(
 
             }
         },
-
+        //delete the tasks by their id
         deleteTask:async(taskId)=>{
             try {
                 const res =await axiosInstance.delete(`task/deltask/${taskId}`);
@@ -101,10 +101,11 @@ export const useTaskStore= create((set,get)=>(
                 
             }
         },
-
-        editTask:async(data)=>{
+        //update the task data with the specific task id
+        editTask:async(data,taskId)=>{
             try {
-                const res =await axiosInstance.patch('task/editask/',data);
+                
+                const res =await axiosInstance.patch(`task/editask/${taskId}`,data);
 
                 if (res.status==200)
                 {

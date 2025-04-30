@@ -105,6 +105,7 @@ const startDate=watch("startDate");
         <label className=' label text-primary'>Select Start Date</label>
         <input 
         type="date"
+        
         className='date border-full border-primary input w-full  focus:ring-0 appearance-none '
         {...register("startDate")}
         style={{

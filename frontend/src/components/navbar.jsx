@@ -48,7 +48,7 @@ setShowSideBar(!showSideBar);
     <>
   
   {/* Sidebar Component TO be shown or hidden */}
-<div ref={sidebarRef} className={`fixed top-[88px] left-0 h-full w-64 bg-base shadow-md z-60 transition-transform duration-300 ${showSideBar&&sidebarClickMenu===0? 'translate-x-0': '-translate-x-full'}`}>
+<div ref={sidebarRef} className={`fixed top-[88px] left-0 h-full w-64 bg-base shadow-md z-60 transition-transform duration-200 ${showSideBar&&sidebarClickMenu===0? 'translate-x-0': '-translate-x-full'}`}>
 <Sidebar>
 
 </Sidebar>
